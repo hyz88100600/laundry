@@ -9,6 +9,7 @@ public class DataResult {
 	private String smsCode;//短信验证码
 	
 	//用户返回
+	@JsonInclude(Include.NON_NULL)
 	private String nickName;//昵称
 	
 
