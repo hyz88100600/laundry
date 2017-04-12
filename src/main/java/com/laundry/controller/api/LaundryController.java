@@ -22,7 +22,7 @@ public class LaundryController {
 	@Autowired
 	private LaundryService laundryService;
 
-	// 获取验证码
+	// 获取店铺
 	@ApiOperation(value = "获取店铺", notes = "获取3千米内的店铺,目前只能获取所有")
 	@RequestMapping(value = "getAll", method = RequestMethod.POST)
 	@ResponseBody
