@@ -1,4 +1,4 @@
-package com.laundry.domain.order;
+package com.laundry.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,14 +7,15 @@ import javax.persistence.Table;
 
 //订单明细
 @Entity
-@Table(name="order_item")
+@Table(name="t_order_item")
 public class OrderItem {
 	
 	@Id
 	@GeneratedValue
 	private Long id;
 	
-	private String desc;//描述
+	private String remarks;//描述
+	
 	private String picture;//图片
 	private Double price;//单价
 	private Long orderId;//订单id
@@ -27,12 +28,12 @@ public class OrderItem {
 		this.id = id;
 	}
 
-	public String getDesc() {
-		return desc;
+	public String getRemarks() {
+		return remarks;
 	}
 
-	public void setDesc(String desc) {
-		this.desc = desc;
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
 	}
 
 	public String getPicture() {

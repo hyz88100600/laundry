@@ -7,7 +7,7 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name="laundry")
+@Table(name="t_laundry")
 public class Laundry extends BaseModel{
 
 	@Id

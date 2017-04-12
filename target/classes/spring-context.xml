@@ -63,10 +63,7 @@
 		<!-- 指定Jpa持久化实现厂商类,这里以Hibernate为例 -->
 		<property name="jpaVendorAdapter" ref="hibernateJpaVendorAdapter" />
 		<!-- 指定Entity实体类包路径 -->
-		<property name="packagesToScan">
-			<array>
-				<value>com.laundry.domain</value>
-			</array>
+		<property name="packagesToScan" value="com.laundry.domain">
 		</property>
 		<!-- 指定JPA属性；如Hibernate中指定是否显示SQL的是否显示、方言等 -->
 		<property name="jpaProperties">

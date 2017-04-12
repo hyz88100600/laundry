@@ -1,15 +1,18 @@
-package com.laundry.domain.order;
+package com.laundry.domain;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.laundry.domain.BaseModel;
+import com.laundry.domain.type.OrderStatus;
 
 //订单
 @Entity
-@Table(name="order")
+@Table(name="t_order")
 public class Order extends BaseModel{
 
 	@Id
@@ -19,6 +22,9 @@ public class Order extends BaseModel{
 	private Double sumPrice;//总价
 	
 	private Long laundryId;//店铺id
+	
+	@Enumerated(EnumType.STRING)
+	private OrderStatus orderStatus;//
 
 	public Long getId() {
 		return id;
@@ -42,6 +48,14 @@ public class Order extends BaseModel{
 
 	public void setSumPrice(Double sumPrice) {
 		this.sumPrice = sumPrice;
+	}
+
+	public OrderStatus getOrderStatus() {
+		return orderStatus;
+	}
+
+	public void setOrderStatus(OrderStatus orderStatus) {
+		this.orderStatus = orderStatus;
 	}
 	
 }
