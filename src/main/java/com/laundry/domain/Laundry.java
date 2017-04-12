@@ -15,9 +15,10 @@ public class Laundry extends BaseModel{
 	private Long id;
 	
 	private String name;//洗衣店名称
+	private Double score;//评分
 	
-	private String longitude;//经度
-	private String dimension;//维度
+	private Double longitude;//经度
+	private Double dimension;//维度
 	
 	
 	public String getName() {
@@ -36,21 +37,28 @@ public class Laundry extends BaseModel{
 		this.id = id;
 	}
 
-	public String getLongitude() {
+	public Double getScore() {
+		return score;
+	}
+
+	public void setScore(Double score) {
+		this.score = score;
+	}
+
+	public Double getLongitude() {
 		return longitude;
 	}
 
-	public void setLongitude(String longitude) {
+	public void setLongitude(Double longitude) {
 		this.longitude = longitude;
 	}
 
-	public String getDimension() {
+	public Double getDimension() {
 		return dimension;
 	}
 
-	public void setDimension(String dimension) {
+	public void setDimension(Double dimension) {
 		this.dimension = dimension;
 	}
-	
 	
 }
