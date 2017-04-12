@@ -23,6 +23,8 @@ public class Order extends BaseModel{
 	
 	private Long laundryId;//店铺id
 	
+	private String phone;//手机号
+	
 	@Enumerated(EnumType.STRING)
 	private OrderStatus orderStatus;//
 
@@ -57,5 +59,13 @@ public class Order extends BaseModel{
 	public void setOrderStatus(OrderStatus orderStatus) {
 		this.orderStatus = orderStatus;
 	}
-	
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
 }
