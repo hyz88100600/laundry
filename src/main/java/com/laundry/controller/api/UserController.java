@@ -13,9 +13,11 @@ import com.laundry.domain.type.StatusCode;
 import com.laundry.dto.LoginDTO;
 import com.laundry.dto.PhoneDTO;
 import com.laundry.dto.UserDTO;
-import com.laundry.pojo.BaseResult;
-import com.laundry.pojo.DataResult;
+import com.laundry.pojo.GetSmsCodeResult;
+import com.laundry.pojo.LoginResult;
+import com.laundry.pojo.RegisterResult;
 import com.laundry.service.UserService;
+import com.laundry.utils.BaseUtils;
 import com.wordnik.swagger.annotations.ApiOperation;
 
 @Controller
@@ -29,25 +31,25 @@ public class UserController {
 	@ApiOperation(value = "用户注册", notes = "根据手机号和验证码注册")
 	@RequestMapping(value = "register", method = RequestMethod.POST)
 	@ResponseBody
-	public BaseResult register(@RequestBody UserDTO userDTO) {
-		if (!phoneCheck(userDTO.getPhone())) {
-			return new BaseResult(StatusCode.phone_error);
+	public RegisterResult register(@RequestBody UserDTO userDTO) {
+		if (!BaseUtils.phoneCheck(userDTO.getPhone())) {
+			return new RegisterResult(StatusCode.phone_error);
 		} else {
 			if (StringUtils.isBlank(userDTO.getSmsCode())) {
-				return new BaseResult(StatusCode.smsCode_error);
+				return new RegisterResult(StatusCode.smsCode_error);
 			} else {
 				if (!"1234".equals(userDTO.getSmsCode())) {
-					return new BaseResult(StatusCode.smsCode_error);
+					return new RegisterResult(StatusCode.smsCode_error);
 				}
 			}
 		}
 		//
 		if (StringUtils.isBlank(userDTO.getPassword())) {
-			return new BaseResult(StatusCode.password_error_blank);
+			return new RegisterResult(StatusCode.password_error_blank);
 		} else {
 			if (userDTO.getPassword().length() < 6
 					|| userDTO.getPassword().length() > 12) {
-				return new BaseResult(StatusCode.password_error_length);
+				return new RegisterResult(StatusCode.password_error_length);
 			}
 		}
 
@@ -59,10 +61,9 @@ public class UserController {
 			user.setPassword(userDTO.getPassword());
 			user.setNickName(userDTO.getPhone());
 			userService.save(user);
-
-			return new BaseResult(StatusCode.success);
+			return new RegisterResult(StatusCode.success);
 		} else {
-			return new BaseResult(StatusCode.user_already_exist);
+			return new RegisterResult(StatusCode.user_already_exist);
 		}
 	}
 
@@ -70,58 +71,41 @@ public class UserController {
 	@ApiOperation(value = "获取手机验证码", notes = "获取手机验证码")
 	@RequestMapping(value = "getSmsCode", method = RequestMethod.POST)
 	@ResponseBody
-	public BaseResult getSmsCode(@RequestBody PhoneDTO phoneDTO) {
-		if (!phoneCheck(phoneDTO.getPhone())) {
-			return new BaseResult(StatusCode.phone_error);
+	public GetSmsCodeResult getSmsCode(@RequestBody PhoneDTO phoneDTO) {
+		if (!BaseUtils.phoneCheck(phoneDTO.getPhone())) {
+			return new GetSmsCodeResult(StatusCode.phone_error);
 		}
-		DataResult data = new DataResult();
-		data.setSmsCode("1234");
-
-		BaseResult baseResult = new BaseResult(StatusCode.success);
-		baseResult.setData(data);
-		return baseResult;
+		GetSmsCodeResult getSmsCodeResult = new GetSmsCodeResult(StatusCode.success);
+		getSmsCodeResult.setSmsCode("1234");
+		return getSmsCodeResult;
 	}
 
 	// 用户登录
 	@ApiOperation(value = "用户登录", notes = "用户登录")
 	@RequestMapping(value = "login", method = RequestMethod.POST)
 	@ResponseBody
-	public BaseResult login(@RequestBody LoginDTO loginDTO) {
-		if (!phoneCheck(loginDTO.getPhone())) {
-			return new BaseResult(StatusCode.phone_error);
+	public LoginResult login(@RequestBody LoginDTO loginDTO) {
+		if (!BaseUtils.phoneCheck(loginDTO.getPhone())) {
+			return new LoginResult(StatusCode.phone_error);
 		}
 
 		if (StringUtils.isBlank(loginDTO.getPassword())) {
-			return new BaseResult(StatusCode.password_error_blank);
+			return new LoginResult(StatusCode.password_error_blank);
 		}
 
 		User user = userService.findByPhone(loginDTO.getPhone());
 
 		if (user == null) {
-			return new BaseResult(StatusCode.user_not_exist);
+			return new LoginResult(StatusCode.user_not_exist);
 		} else {
 			if (!user.getPassword().equals(loginDTO.getPassword())) {
-				return new BaseResult(StatusCode.user_password_error);
+				return new LoginResult(StatusCode.user_password_error);
 			} else {
-				 BaseResult baseResult = new BaseResult(StatusCode.success);
-				 DataResult dataResult = new DataResult();
-				 dataResult.setNickName(user.getNickName());
-				 baseResult.setData(dataResult);
-				 
-				 return baseResult;
+				 LoginResult loginResult = new LoginResult(StatusCode.success);
+				 loginResult.setNickName(user.getNickName());
+				 return loginResult;
 			}
 		}
-	}
-
-	// 验证手机号是否符合规则
-	private boolean phoneCheck(String phone) {
-
-		if (StringUtils.isBlank(phone)) {
-			return false;
-		}
-		String regex = "1[358][0-9]{9,9}";
-
-		return phone.matches(regex);
 	}
 
 }

@@ -111,6 +111,13 @@
 			<artifactId>fastjson</artifactId>
 			<version>1.2.4</version>
 		</dependency> -->
+		<!-- 阿里云  短信 -->
+		<dependency>
+		    <groupId>com.aliyun.mns</groupId>
+		    <artifactId>aliyun-sdk-mns</artifactId>
+		    <version>1.1.8</version>
+		    <classifier>jar-with-dependencies</classifier>
+		</dependency>
 	</dependencies>
 
 
