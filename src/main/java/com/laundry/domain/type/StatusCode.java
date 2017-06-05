@@ -14,7 +14,12 @@ public enum StatusCode {
 	
 	user_password_error("0007","用户名或密码错误"),
 	
-	param_error_blank("0008","必填参数不能为空");
+	param_error_blank("0008","必填参数不能为空"),
+	
+	laundry_params_blank("0009","店铺必填参数不能为空"),
+	laundry_already_exist("0010","店铺已经存在"),
+	
+	sys_error("9000","系统异常");
 	
 	StatusCode(String code,String message){
 		this.code  = code;

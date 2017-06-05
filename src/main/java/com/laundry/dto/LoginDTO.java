@@ -4,6 +4,7 @@ public class LoginDTO {
 
 	private String phone;
 	private String password;
+	
 	public String getPhone() {
 		return phone;
 	}

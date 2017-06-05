@@ -2,6 +2,7 @@ package com.laundry.domain;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -17,8 +18,13 @@ public class Laundry{
 	@Id
 	@GeneratedValue
 	private Long id;
-	
+	@Column(nullable=false)
 	private String name;//洗衣店名称
+	@Column(nullable=false)
+	private String hoster;//店主
+	@Column(nullable=false)
+	private String contact;//联系方式
+	
 	private Double score;//评分
 	
 	private Double longitude;//经度
@@ -84,6 +90,22 @@ public class Laundry{
 
 	public void setModifyOn(Date modifyOn) {
 		this.modifyOn = modifyOn;
+	}
+
+	public String getHoster() {
+		return hoster;
+	}
+
+	public void setHoster(String hoster) {
+		this.hoster = hoster;
+	}
+
+	public String getContact() {
+		return contact;
+	}
+
+	public void setContact(String contact) {
+		this.contact = contact;
 	}
 	
 }
