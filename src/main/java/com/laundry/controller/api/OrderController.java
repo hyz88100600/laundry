@@ -1,7 +1,6 @@
 package com.laundry.controller.api;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -24,7 +23,8 @@ import com.laundry.dto.OrderDTO;
 import com.laundry.dto.OrderItemDTO;
 import com.laundry.dto.OrderQueryDTO;
 import com.laundry.pojo.BaseResult;
-import com.laundry.pojo.DataResult;
+import com.laundry.pojo.QueryOrderItemResult;
+import com.laundry.pojo.QueryOrderResult;
 import com.laundry.pojo.UploadResult;
 import com.laundry.service.OrderService;
 import com.laundry.utils.BaseConfig;
@@ -38,6 +38,7 @@ public class OrderController {
 	private OrderService orderService;
 
 	
+	//保存
 	@ApiOperation(value = "保存订单", notes = "保存订单")
 	@RequestMapping(value = "save", method = RequestMethod.POST)
 	@ResponseBody
@@ -54,37 +55,31 @@ public class OrderController {
 
 	// 查询
 	@ApiOperation(value = "查询订单列表", notes = "查询订单列表")
-	@RequestMapping(value = "queryList", method = RequestMethod.POST)
+	@RequestMapping(value = "queryOrder", method = RequestMethod.POST)
 	@ResponseBody
-	public BaseResult query(@RequestBody OrderQueryDTO orderQueryDTO) {
+	public QueryOrderResult queryOrder(@RequestBody OrderQueryDTO orderQueryDTO) {
+		
 		if(StringUtils.isBlank(orderQueryDTO.getOrderStatus())||StringUtils.isBlank(orderQueryDTO.getPhone())){
-			return new BaseResult(StatusCode.param_error_blank);
+			return new QueryOrderResult(StatusCode.param_error_blank);
 		}
 		
 		List<Order> orders = orderService.findByPhoneAndOrderStatus(orderQueryDTO.getPhone(), orderQueryDTO.getOrderStatus());
-	
-		BaseResult baseResult = new BaseResult(StatusCode.success);
-		DataResult data = new DataResult();
-		data.setOrder(orders);
-		baseResult.setData(data);
+		QueryOrderResult baseResult = new QueryOrderResult(StatusCode.success);
+		baseResult.setOrder(orders);
 		return baseResult;
 	}
 	
 	//查询明细
 	@ApiOperation(value = "查询明细", notes = "查询明细")
-	@RequestMapping(value = "queryItem", method = RequestMethod.POST)
+	@RequestMapping(value = "queryOrderItem", method = RequestMethod.POST)
 	@ResponseBody
-	public BaseResult queryItem(@RequestBody IdDTO idDTO) {
+	public QueryOrderItemResult queryOrderItem(@RequestBody IdDTO idDTO) {
 		if(idDTO.getId()==null){
-			return new BaseResult(StatusCode.param_error_blank);
+			return new QueryOrderItemResult(StatusCode.param_error_blank);
 		}
-		
 		List<OrderItem> Items = orderService.findByItemsById(idDTO.getId());
-	
-		BaseResult baseResult = new BaseResult(StatusCode.success);
-		DataResult data = new DataResult();
-		data.setOrderItem(Items);
-		baseResult.setData(data);
+		QueryOrderItemResult baseResult = new QueryOrderItemResult(StatusCode.success);
+		baseResult.setOrderItem(Items);
 		return baseResult;
 	}
 	
@@ -104,14 +99,14 @@ public class OrderController {
 		try {
 			file.transferTo(target);
 			UploadResult uploadResult = new UploadResult(StatusCode.success);
-			uploadResult.setUrl(url+name);
+			uploadResult.setUrl("/"+phone+"/"+name);
 			return uploadResult;
 		} catch (Exception e) {
 			return new UploadResult(StatusCode.sys_error);
 		}
 	}
 
-	//
+	//校验
 	private BaseResult validateOrder(OrderDTO orderDTO) {
 		if (orderDTO.getLaundryId() == null
 				|| StringUtils.isBlank(orderDTO.getPhone())
