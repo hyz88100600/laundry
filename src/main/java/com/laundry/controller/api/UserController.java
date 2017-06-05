@@ -1,5 +1,9 @@
 package com.laundry.controller.api;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +22,7 @@ import com.laundry.pojo.LoginResult;
 import com.laundry.pojo.RegisterResult;
 import com.laundry.service.UserService;
 import com.laundry.utils.BaseUtils;
+import com.laundry.utils.PublishSMSMessageUtils;
 import com.wordnik.swagger.annotations.ApiOperation;
 
 @Controller
@@ -26,6 +31,8 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
+	
+	private static Map<String,String> smsMap = new HashMap<String,String>();
 
 	// 注册
 	@ApiOperation(value = "用户注册", notes = "根据手机号和验证码注册")
@@ -38,7 +45,7 @@ public class UserController {
 			if (StringUtils.isBlank(userDTO.getSmsCode())) {
 				return new RegisterResult(StatusCode.smsCode_error);
 			} else {
-				if (!"1234".equals(userDTO.getSmsCode())) {
+				if (!smsMap.get(userDTO.getPhone()).equals(userDTO.getSmsCode())) {
 					return new RegisterResult(StatusCode.smsCode_error);
 				}
 			}
@@ -61,6 +68,10 @@ public class UserController {
 			user.setPassword(userDTO.getPassword());
 			user.setNickName(userDTO.getPhone());
 			userService.save(user);
+			
+			//清除缓存
+			smsMap.remove(userDTO.getPhone());
+			
 			return new RegisterResult(StatusCode.success);
 		} else {
 			return new RegisterResult(StatusCode.user_already_exist);
@@ -75,8 +86,15 @@ public class UserController {
 		if (!BaseUtils.phoneCheck(phoneDTO.getPhone())) {
 			return new GetSmsCodeResult(StatusCode.phone_error);
 		}
+		//获取验证码
+		Random random = new Random();
+		String smsCode = ""+random.nextInt(10)+random.nextInt(10)+random.nextInt(10)+random.nextInt(10);
+		smsMap.put(phoneDTO.getPhone(), smsCode);
+		//发送短信
+		PublishSMSMessageUtils.publish(phoneDTO.getPhone(), smsCode);
+		//返回
 		GetSmsCodeResult getSmsCodeResult = new GetSmsCodeResult(StatusCode.success);
-		getSmsCodeResult.setSmsCode("1234");
+		getSmsCodeResult.setSmsCode(smsCode);
 		return getSmsCodeResult;
 	}
 
