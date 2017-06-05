@@ -17,10 +17,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.laundry.domain.Order;
 import com.laundry.domain.OrderItem;
+import com.laundry.domain.type.OrderStatus;
 import com.laundry.domain.type.StatusCode;
 import com.laundry.dto.IdDTO;
+import com.laundry.dto.ModifyOrderStatusDTO;
 import com.laundry.dto.OrderDTO;
 import com.laundry.dto.OrderItemDTO;
+import com.laundry.dto.OrderOfferDTO;
 import com.laundry.dto.OrderQueryDTO;
 import com.laundry.pojo.BaseResult;
 import com.laundry.pojo.QueryOrderItemResult;
@@ -51,6 +54,33 @@ public class OrderController {
 		orderService.create(orderDTO);
 		BaseResult baseResult = new BaseResult(StatusCode.success);
 		return baseResult;
+	}
+	
+	//报价
+	@ApiOperation(value = "报价", notes = "报价")
+	@RequestMapping(value = "offer", method = RequestMethod.POST)
+	@ResponseBody
+	public BaseResult offer(@RequestBody OrderOfferDTO dto) {
+		//判断状态是否正确
+		Long orderId = dto.getOrderId();
+		Order findOne = orderService.findOne(orderId);
+		
+		if(findOne.getOrderStatus()!=OrderStatus.init){
+			return new BaseResult(StatusCode.order_status_error);
+		}
+		// 保存
+		orderService.offer(dto);
+		return new BaseResult(StatusCode.success);
+	}
+	
+	//改变状态
+	@ApiOperation(value = "改变状态", notes = "改变状态")
+	@RequestMapping(value = "modifyStatus", method = RequestMethod.POST)
+	@ResponseBody
+	public BaseResult modifyStatus(@RequestBody ModifyOrderStatusDTO dto) {
+		// 保存
+		orderService.modifyStatus(dto);
+		return new BaseResult(StatusCode.success);
 	}
 
 	// 查询

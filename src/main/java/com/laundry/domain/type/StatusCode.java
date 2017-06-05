@@ -19,6 +19,8 @@ public enum StatusCode {
 	laundry_params_blank("0009","店铺必填参数不能为空"),
 	laundry_already_exist("0010","店铺已经存在"),
 	
+	order_status_error("0011","订单状态不正确"),
+	
 	sys_error("9000","系统异常");
 	
 	StatusCode(String code,String message){

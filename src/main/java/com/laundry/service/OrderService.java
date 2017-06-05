@@ -20,8 +20,11 @@ import com.laundry.dao.OrderRepository;
 import com.laundry.domain.Order;
 import com.laundry.domain.OrderItem;
 import com.laundry.domain.type.OrderStatus;
+import com.laundry.dto.ModifyOrderStatusDTO;
 import com.laundry.dto.OrderDTO;
 import com.laundry.dto.OrderItemDTO;
+import com.laundry.dto.OrderItemOfferDTO;
+import com.laundry.dto.OrderOfferDTO;
 
 @Service
 @Transactional
@@ -31,6 +34,11 @@ public class OrderService {
 	private OrderRepository orderRepository;
 	@Autowired
 	private OrderItemRepository orderItemRepository;
+	
+	//根据id查询订单
+	public Order findOne(Long id){
+		return orderRepository.findOne(id);
+	}
 	
 	//创建
 	public void create(OrderDTO orderDTO){
@@ -48,6 +56,31 @@ public class OrderService {
 			orderItem.setPicture(item.getPicture());
 			orderItemRepository.save(orderItem);
 		}
+	}
+	
+	//报价
+	public void offer(OrderOfferDTO dto) {
+		OrderItemOfferDTO[] items = dto.getItems();
+		
+		for (OrderItemOfferDTO item : items) {
+			Long itemId = item.getItemId();
+			OrderItem findOne = orderItemRepository.findOne(itemId);
+			findOne.setPrice(item.getPrice());
+			orderItemRepository.save(findOne);
+		}
+		
+	}
+	
+	//修改状态
+	public void modifyStatus(ModifyOrderStatusDTO dto) {
+		Long orderId = dto.getOrderId();
+		
+		Order findOne = orderRepository.findOne(orderId);
+		
+		findOne.setOrderStatus(dto.getOrderStatus());
+		findOne.setModifyOn(new Date());
+		
+		orderRepository.save(findOne);
 	}
 	
 	public List<Order> findByPhoneAndOrderStatus(String phone,String orderStatus) {
@@ -126,7 +159,7 @@ public class OrderService {
 			}
 		};
 	}
-	
+
 }
 
 class OrderParams{
