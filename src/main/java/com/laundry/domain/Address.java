@@ -20,9 +20,9 @@ public class Address {
 	
 	private Long userId;//用户id
 	
-	private String desc;//描述
+	private String remarks;//描述
 	private Double longitude;//经度
-	private Double dimension;//维度
+	private Double latitude;//维度
 	
 	
 	@Temporal(TemporalType.TIMESTAMP)
@@ -35,11 +35,11 @@ public class Address {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public String getDesc() {
-		return desc;
+	public String getRemarks() {
+		return remarks;
 	}
-	public void setDesc(String desc) {
-		this.desc = desc;
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
 	}
 	public Double getLongitude() {
 		return longitude;
@@ -47,11 +47,11 @@ public class Address {
 	public void setLongitude(Double longitude) {
 		this.longitude = longitude;
 	}
-	public Double getDimension() {
-		return dimension;
+	public Double getLatitude() {
+		return latitude;
 	}
-	public void setDimension(Double dimension) {
-		this.dimension = dimension;
+	public void setLatitude(Double latitude) {
+		this.latitude = latitude;
 	}
 	public Date getCreateOn() {
 		return createOn;

@@ -1,6 +1,6 @@
 package com.laundry.dto;
 
-public class LoginDTO {
+public class LoginDTO{
 
 	private String phone;
 	private String password;

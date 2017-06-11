@@ -38,7 +38,7 @@ public class LaundryService {
 		laundry.setName(dto.getName());
 		laundry.setHoster(dto.getHoster());
 		laundry.setContact(dto.getContact());
-		laundry.setDimension(dto.getDimension());
+		laundry.setLatitude(dto.getLatitude());
 		laundry.setLongitude(dto.getLongitude());
 		laundry.setCreateOn(new Date());
 		

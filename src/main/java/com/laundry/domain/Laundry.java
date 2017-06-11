@@ -28,7 +28,7 @@ public class Laundry{
 	private Double score;//评分
 	
 	private Double longitude;//经度
-	private Double dimension;//维度
+	private Double latitude;//维度
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	protected Date createOn = new Date();
@@ -68,12 +68,12 @@ public class Laundry{
 		this.longitude = longitude;
 	}
 
-	public Double getDimension() {
-		return dimension;
+	public Double getLatitude() {
+		return latitude;
 	}
 
-	public void setDimension(Double dimension) {
-		this.dimension = dimension;
+	public void setLatitude(Double latitude) {
+		this.latitude = latitude;
 	}
 
 	public Date getCreateOn() {

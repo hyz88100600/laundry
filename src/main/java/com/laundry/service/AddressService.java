@@ -1,5 +1,6 @@
 package com.laundry.service;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.google.common.collect.Lists;
 import com.laundry.dao.AddressRepository;
 import com.laundry.domain.Address;
+import com.laundry.dto.AddressDTO;
 
 @Service
 @Transactional
@@ -27,6 +29,21 @@ public class AddressService {
 		AddressParams params = new AddressParams();
 		params.setUserId(userId);
 		return addressRepository.findOne(buildSpecification(params));
+	}
+	
+	public void create(AddressDTO addressDTO, Long id) {
+		Address findByUserId = findByUserId(id);
+		if(findByUserId==null){
+			findByUserId = new Address();
+			findByUserId.setUserId(id);
+			findByUserId.setCreateOn(new Date());
+		}else{
+			findByUserId.setModifyOn(new Date());
+		}
+		findByUserId.setRemarks(addressDTO.getRemarks());
+		findByUserId.setLatitude(addressDTO.getLatitude());
+		findByUserId.setLongitude(addressDTO.getLongitude());
+		addressRepository.save(findByUserId);
 	}
 
 	// 获取Specification

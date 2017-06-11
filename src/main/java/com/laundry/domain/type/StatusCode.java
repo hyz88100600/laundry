@@ -21,6 +21,10 @@ public enum StatusCode {
 	
 	order_status_error("0011","订单状态不正确"),
 	
+	token_error_blank("0012","token不能为空"),
+	
+	token_error_Invalid("0013","token失效"),
+	
 	sys_error("9000","系统异常");
 	
 	StatusCode(String code,String message){

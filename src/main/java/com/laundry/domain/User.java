@@ -64,5 +64,4 @@ public class User{
 	public void setModifyOn(Date modifyOn) {
 		this.modifyOn = modifyOn;
 	}
-	
 }

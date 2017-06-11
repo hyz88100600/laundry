@@ -43,11 +43,11 @@ public class LaundryController {
 	@ResponseBody
 	public BaseResult createLaundry(@RequestBody CreateLaundryDTO dto) {
 		
-		if(StringUtils.isBlank(dto.getName())||StringUtils.isBlank(dto.getHoster())||StringUtils.isBlank(dto.getContact())||dto.getDimension()==null||dto.getLongitude()==null){
+		if(StringUtils.isBlank(dto.getName())||StringUtils.isBlank(dto.getHoster())||StringUtils.isBlank(dto.getContact())||dto.getLatitude()==null||dto.getLongitude()==null){
 			return new BaseResult(StatusCode.laundry_params_blank);
 		}
 		
-		Laundry laundry = laundryService.getLaundry(dto.getDimension(), dto.getLongitude());
+		Laundry laundry = laundryService.getLaundry(dto.getLatitude(), dto.getLongitude());
 		
 		if(laundry!=null){
 			return new BaseResult();

@@ -8,7 +8,7 @@ public class CreateLaundryDTO {
 	private String contact;//联系方式
 	
 	private Double longitude;//经度
-	private Double dimension;//维度
+	private Double latitude;//维度
 	
 	public String getName() {
 		return name;
@@ -34,11 +34,12 @@ public class CreateLaundryDTO {
 	public void setLongitude(Double longitude) {
 		this.longitude = longitude;
 	}
-	public Double getDimension() {
-		return dimension;
+	public Double getLatitude() {
+		return latitude;
 	}
-	public void setDimension(Double dimension) {
-		this.dimension = dimension;
+	public void setLatitude(Double latitude) {
+		this.latitude = latitude;
 	}
+	
 	
 }
