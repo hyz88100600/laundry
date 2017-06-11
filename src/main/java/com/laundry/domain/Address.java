@@ -21,8 +21,8 @@ public class Address {
 	private Long userId;//用户id
 	
 	private String remarks;//描述
-	private Double longitude;//经度
-	private Double latitude;//维度
+	private String longitude;//经度
+	private String latitude;//维度
 	
 	
 	@Temporal(TemporalType.TIMESTAMP)
@@ -41,16 +41,17 @@ public class Address {
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
 	}
-	public Double getLongitude() {
+	
+	public String getLongitude() {
 		return longitude;
 	}
-	public void setLongitude(Double longitude) {
+	public void setLongitude(String longitude) {
 		this.longitude = longitude;
 	}
-	public Double getLatitude() {
+	public String getLatitude() {
 		return latitude;
 	}
-	public void setLatitude(Double latitude) {
+	public void setLatitude(String latitude) {
 		this.latitude = latitude;
 	}
 	public Date getCreateOn() {

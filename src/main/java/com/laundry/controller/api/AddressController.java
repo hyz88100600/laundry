@@ -28,12 +28,12 @@ public class AddressController {
 	@ApiOperation(value = "上传位置信息", notes = "上传位置信息")
 	@RequestMapping(value = "save", method = RequestMethod.POST)
 	@ResponseBody
-	public BaseResult save(@RequestHeader BaseDTO baseDTO,@RequestBody AddressDTO addressDTO) {
-		StatusCode validateBaseDTO = UserController.validateBaseDTO(baseDTO);
+	public BaseResult save(@RequestHeader(required=false) String token,@RequestBody AddressDTO addressDTO) {
+		StatusCode validateBaseDTO = UserController.validateBaseDTO(new BaseDTO(token, null));
 		if(validateBaseDTO!=StatusCode.success){
 			return new BaseResult(validateBaseDTO);
 		}
-		User user = (User)JSONObject.toBean(JSONObject.fromObject(UserController.tokenUserMap.get(baseDTO.getToken())), User.class);
+		User user = (User)JSONObject.toBean(JSONObject.fromObject(UserController.tokenUserMap.get(token)), User.class);
 		addressService.create(addressDTO,user.getId());
 		return new BaseResult(StatusCode.success);
 	}

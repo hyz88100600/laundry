@@ -181,15 +181,12 @@ public class UserController {
 	}
 	
 	public static StatusCode validateBaseDTO(BaseDTO baseDTO){
-		
 		if(StringUtils.isBlank(baseDTO.getToken())){
 			return StatusCode.token_error_blank;
 		}
-		
 		if(!tokenUserMap.containsKey(baseDTO.getToken())){
 			return StatusCode.token_error_Invalid;
 		}
-		
 		return StatusCode.success;
 	}
 }
