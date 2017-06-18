@@ -156,18 +156,20 @@ public class UserController {
 	@ApiOperation(value = "用户登录", notes = "用户登录(token)")
 	@RequestMapping(value = "login/token", method = RequestMethod.POST)
 	@ResponseBody
-	public LoginResult loginToken(@RequestHeader BaseDTO baseDTO) {
-
+	public LoginResult loginToken(@RequestHeader(required=false) String token) {
 		try {
+			BaseDTO baseDTO = new BaseDTO();
+			baseDTO.setToken(token);
 			StatusCode validateBaseDTO = validateBaseDTO(baseDTO);
 			if(validateBaseDTO!=StatusCode.success){
 				return new LoginResult(validateBaseDTO);
 			}
 			//获取user
 			JSONObject user = JSONObject.fromObject(tokenUserMap.get(baseDTO.getToken()));
-			
+			//清楚旧的token
+			tokenUserMap.remove(token);
 			//生成token
-			String token = MessageDigestUtils.encryptSHA1(user.getString("phone")+DateFormatUtils.format(new Date(), "yyyyMMddHHmmss"));
+			token = MessageDigestUtils.encryptSHA1(user.getString("phone")+DateFormatUtils.format(new Date(), "yyyyMMddHHmmss"));
 			tokenUserMap.put(token, user.toString());
 			LoginResult loginResult = new LoginResult(
 					StatusCode.success);

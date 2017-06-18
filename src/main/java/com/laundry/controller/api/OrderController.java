@@ -4,11 +4,14 @@ import java.io.File;
 import java.util.Date;
 import java.util.List;
 
+import net.sf.json.JSONObject;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,6 +22,7 @@ import com.laundry.domain.Order;
 import com.laundry.domain.OrderItem;
 import com.laundry.domain.type.OrderStatus;
 import com.laundry.domain.type.StatusCode;
+import com.laundry.dto.BaseDTO;
 import com.laundry.dto.IdDTO;
 import com.laundry.dto.ModifyOrderStatusDTO;
 import com.laundry.dto.OrderDTO;
@@ -45,11 +49,20 @@ public class OrderController {
 	@ApiOperation(value = "保存订单", notes = "保存订单")
 	@RequestMapping(value = "save", method = RequestMethod.POST)
 	@ResponseBody
-	public BaseResult save(@RequestBody OrderDTO orderDTO) {
+	public BaseResult save(@RequestBody OrderDTO orderDTO,@RequestHeader(required=false) String token) {
+		BaseDTO baseDTO = new BaseDTO();
+		baseDTO.setToken(token);
+		StatusCode validateBaseDTO = UserController.validateBaseDTO(baseDTO);
+		if(validateBaseDTO!=StatusCode.success){
+			return new UploadResult(validateBaseDTO);
+		}
+		//获取user
+		JSONObject user = JSONObject.fromObject(UserController.tokenUserMap.get(baseDTO.getToken()));
 		BaseResult validateOrder = validateOrder(orderDTO);
 		if (!validateOrder.getCode().equals(StatusCode.success.getCode())) {
 			return validateOrder;
 		}
+		orderDTO.setPhone(user.getString("phone"));
 		// 保存
 		orderService.create(orderDTO);
 		BaseResult baseResult = new BaseResult(StatusCode.success);
@@ -117,19 +130,31 @@ public class OrderController {
 	@ApiOperation(value = "上传图片", notes = "上传图片")
 	@RequestMapping(value = "upload", method = RequestMethod.POST)
 	@ResponseBody
-	public UploadResult upload(@RequestParam(value = "file", required = false) MultipartFile file,String phone){
+	public UploadResult upload(@RequestParam(value = "file", required = false) MultipartFile file,@RequestHeader(required=false) String token){
+		BaseDTO baseDTO = new BaseDTO();
+		baseDTO.setToken(token);
+		StatusCode validateBaseDTO = UserController.validateBaseDTO(baseDTO);
+		if(validateBaseDTO!=StatusCode.success){
+			return new UploadResult(validateBaseDTO);
+		}
+		//获取user
+		JSONObject user = JSONObject.fromObject(UserController.tokenUserMap.get(baseDTO.getToken()));
 		//获取基本上传路径
 		String upload = BaseConfig.getCfgValue("upload");
 		//拼接拼接完整路径
-		String url = upload + phone +"/";
+		String url = upload + user.getString("phone") +"/";
 		//拼接图片名称
 		String name = DateFormatUtils.format(new Date(), "yyyyMMddHHmmss");
 		//保存图片
+		File targetD = new File(url);
+		if(!targetD.exists()){
+			targetD.mkdirs();
+		}
 		File target = new File(url+name);
 		try {
 			file.transferTo(target);
 			UploadResult uploadResult = new UploadResult(StatusCode.success);
-			uploadResult.setUrl("/"+phone+"/"+name);
+			uploadResult.setUrl("/"+user.getString("phone")+"/"+name);
 			return uploadResult;
 		} catch (Exception e) {
 			return new UploadResult(StatusCode.sys_error);
@@ -139,7 +164,6 @@ public class OrderController {
 	//校验
 	private BaseResult validateOrder(OrderDTO orderDTO) {
 		if (orderDTO.getLaundryId() == null
-				|| StringUtils.isBlank(orderDTO.getPhone())
 				|| orderDTO.getItems() == null
 				|| orderDTO.getItems().length == 0) {
 			return new BaseResult(StatusCode.param_error_blank);
