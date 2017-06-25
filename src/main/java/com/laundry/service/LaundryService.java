@@ -46,20 +46,24 @@ public class LaundryService {
 	}
 	
 	//根据坐标精确查询店铺
-	public Laundry getLaundry(Double dimension,Double longitude){
+	public Laundry getLaundry(Double latitude,Double longitude){
 		LaundryParams params = new LaundryParams();
-		params.setDimension(dimension);
+		params.setLatitude(latitude);
 		params.setLongitude(longitude);
 		return laundryRepository.findOne(buildSpecification(params));
 	}
 	
 	//根据坐标范围查询店铺
 	public List<Laundry> getLaundryByCoordinate(GetLaundryDTO dto){
+		
+		Double longitude = dto.getLongitude();
+		Double latitude = dto.getLatitude();
 		LaundryParams params = new LaundryParams();
-		params.setDimension1(dto.getDimension1());
-		params.setDimension2(dto.getDimension2());
-		params.setLongitude1(dto.getLongitude1());
-		params.setLongitude2(dto.getLongitude2());
+		
+		params.setLatitude1(latitude-0.000002d);
+		params.setLatitude2(latitude+0.000002d);
+		params.setLongitude1(longitude-0.000002d);
+		params.setLongitude2(longitude+0.000002d);
 		
 		Specification<Laundry> buildSpecification = buildSpecification(params);
 		
@@ -69,8 +73,8 @@ public class LaundryService {
 	// 获取Specification
 	private Specification<Laundry> buildSpecification(LaundryParams params) {
 
-		final Double dimension1 = params.getDimension1();
-		final Double dimension2 = params.getDimension2();
+		final Double latitude1 = params.getLatitude1();
+		final Double latitude2 = params.getLatitude2();
 		final Double longitude1 = params.getLongitude1();
 		final Double longitude2 = params.getLongitude2();
 		
@@ -80,12 +84,12 @@ public class LaundryService {
 
 				List<Predicate> predicates = Lists.newArrayList();
 				
-				if(dimension1!=null){
-					predicates.add(cb.ge(root.get("dimension").as(Double.class), dimension1));
+				if(latitude1!=null){
+					predicates.add(cb.ge(root.get("latitude").as(Double.class), latitude1));
 				}
 				
-				if(dimension2!=null){
-					predicates.add(cb.le(root.get("dimension").as(Double.class), dimension2));
+				if(latitude2!=null){
+					predicates.add(cb.le(root.get("latitude").as(Double.class), latitude2));
 				}
 				
 				if(longitude1!=null){
@@ -113,11 +117,11 @@ class LaundryParams{
 	private Double longitude1;//经度
 	private Double longitude2;//经度
 	
-	private Double dimension1;//维度
-	private Double dimension2;//维度
+	private Double latitude1;//维度
+	private Double latitude2;//维度
 	
 	private Double longitude;//经度
-	private Double dimension;//维度
+	private Double latitude;//维度
 	
 	public Double getLongitude1() {
 		return longitude1;
@@ -131,17 +135,17 @@ class LaundryParams{
 	public void setLongitude2(Double longitude2) {
 		this.longitude2 = longitude2;
 	}
-	public Double getDimension1() {
-		return dimension1;
+	public Double getLatitude1() {
+		return latitude1;
 	}
-	public void setDimension1(Double dimension1) {
-		this.dimension1 = dimension1;
+	public void setLatitude1(Double latitude1) {
+		this.latitude1 = latitude1;
 	}
-	public Double getDimension2() {
-		return dimension2;
+	public Double getLatitude2() {
+		return latitude2;
 	}
-	public void setDimension2(Double dimension2) {
-		this.dimension2 = dimension2;
+	public void setLatitude2(Double latitude2) {
+		this.latitude2 = latitude2;
 	}
 	public Double getLongitude() {
 		return longitude;
@@ -149,10 +153,10 @@ class LaundryParams{
 	public void setLongitude(Double longitude) {
 		this.longitude = longitude;
 	}
-	public Double getDimension() {
-		return dimension;
+	public Double getLatitude() {
+		return latitude;
 	}
-	public void setDimension(Double dimension) {
-		this.dimension = dimension;
+	public void setLatitude(Double latitude) {
+		this.latitude = latitude;
 	}
 }

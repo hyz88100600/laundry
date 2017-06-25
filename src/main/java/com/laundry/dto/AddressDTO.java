@@ -3,8 +3,8 @@ package com.laundry.dto;
 public class AddressDTO {
 
 	private String remarks;//描述
-	private String longitude;//经度
-	private String latitude;//纬度
+	private Double longitude;//经度
+	private Double latitude;//纬度
 	
 	public String getRemarks() {
 		return remarks;
@@ -12,16 +12,16 @@ public class AddressDTO {
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
 	}
-	public String getLongitude() {
+	public Double getLongitude() {
 		return longitude;
 	}
-	public void setLongitude(String longitude) {
+	public void setLongitude(Double longitude) {
 		this.longitude = longitude;
 	}
-	public String getLatitude() {
+	public Double getLatitude() {
 		return latitude;
 	}
-	public void setLatitude(String latitude) {
+	public void setLatitude(Double latitude) {
 		this.latitude = latitude;
 	}
 }

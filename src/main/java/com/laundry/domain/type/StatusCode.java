@@ -25,6 +25,8 @@ public enum StatusCode {
 	
 	token_error_Invalid("0013","token失效"),
 	
+	address_not_exist("0014","用户地址没有配置"),
+	
 	sys_error("9000","系统异常");
 	
 	StatusCode(String code,String message){

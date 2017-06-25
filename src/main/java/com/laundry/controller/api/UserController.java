@@ -26,6 +26,7 @@ import com.laundry.dto.UserDTO;
 import com.laundry.pojo.GetSmsCodeResult;
 import com.laundry.pojo.LoginResult;
 import com.laundry.pojo.RegisterResult;
+import com.laundry.pojo.utils.TransferUtils;
 import com.laundry.service.AddressService;
 import com.laundry.service.UserService;
 import com.laundry.utils.BaseUtils;
@@ -142,7 +143,7 @@ public class UserController {
 					LoginResult loginResult = new LoginResult(
 							StatusCode.success);
 					loginResult.setNickName(user.getNickName());
-					loginResult.setAddress(addressService.findByUserId(user.getId()));
+					loginResult.setAddressPOJO(TransferUtils.toAddressPOJO(addressService.findByUserId(user.getId())));
 					loginResult.setToken(token);
 					return loginResult;
 				}
@@ -174,7 +175,7 @@ public class UserController {
 			LoginResult loginResult = new LoginResult(
 					StatusCode.success);
 			loginResult.setNickName(user.getString("nickName"));
-			loginResult.setAddress(addressService.findByUserId(user.getLong("id")));
+			loginResult.setAddressPOJO(TransferUtils.toAddressPOJO(addressService.findByUserId(user.getLong("id"))));
 			loginResult.setToken(token);
 			return loginResult;
 		} catch (Exception e) {

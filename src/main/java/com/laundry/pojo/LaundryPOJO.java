@@ -1,15 +1,23 @@
-package com.laundry.dto;
+package com.laundry.pojo;
 
 
-public class CreateLaundryDTO {
+public class LaundryPOJO {
 
+	
+	private Long id;
 	private String name;//洗衣店名称
 	private String hoster;//店主
 	private String contact;//联系方式
+	private String score;//评分
+	private String longitude;//经度
+	private String latitude;//维度
 	
-	private Double longitude;//经度
-	private Double latitude;//维度
-	
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
 	public String getName() {
 		return name;
 	}
@@ -28,16 +36,22 @@ public class CreateLaundryDTO {
 	public void setContact(String contact) {
 		this.contact = contact;
 	}
-	public Double getLongitude() {
+	public String getScore() {
+		return score;
+	}
+	public void setScore(String score) {
+		this.score = score;
+	}
+	public String getLongitude() {
 		return longitude;
 	}
-	public void setLongitude(Double longitude) {
+	public void setLongitude(String longitude) {
 		this.longitude = longitude;
 	}
-	public Double getLatitude() {
+	public String getLatitude() {
 		return latitude;
 	}
-	public void setLatitude(Double latitude) {
+	public void setLatitude(String latitude) {
 		this.latitude = latitude;
 	}
 }
