@@ -35,7 +35,7 @@ public class TransferUtils {
 		pojo.setLongitude(String.valueOf(laundry.getLongitude()));
 		pojo.setName(laundry.getName());
 		pojo.setScore(String.valueOf(laundry.getScore()));
-		
+		pojo.setRemarks(laundry.getRemarks());
 		return pojo;
 	}
 	

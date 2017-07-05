@@ -11,6 +11,7 @@ public class LaundryPOJO {
 	private String score;//评分
 	private String longitude;//经度
 	private String latitude;//维度
+	private String remarks;
 	
 	public Long getId() {
 		return id;
@@ -53,5 +54,11 @@ public class LaundryPOJO {
 	}
 	public void setLatitude(String latitude) {
 		this.latitude = latitude;
+	}
+	public String getRemarks() {
+		return remarks;
+	}
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
 	}
 }

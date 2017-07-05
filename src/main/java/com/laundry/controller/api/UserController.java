@@ -143,7 +143,7 @@ public class UserController {
 					LoginResult loginResult = new LoginResult(
 							StatusCode.success);
 					loginResult.setNickName(user.getNickName());
-					loginResult.setAddressPOJO(TransferUtils.toAddressPOJO(addressService.findByUserId(user.getId())));
+					loginResult.setAddress(TransferUtils.toAddressPOJO(addressService.findByUserId(user.getId())));
 					loginResult.setToken(token);
 					return loginResult;
 				}
@@ -175,7 +175,7 @@ public class UserController {
 			LoginResult loginResult = new LoginResult(
 					StatusCode.success);
 			loginResult.setNickName(user.getString("nickName"));
-			loginResult.setAddressPOJO(TransferUtils.toAddressPOJO(addressService.findByUserId(user.getLong("id"))));
+			loginResult.setAddress(TransferUtils.toAddressPOJO(addressService.findByUserId(user.getLong("id"))));
 			loginResult.setToken(token);
 			return loginResult;
 		} catch (Exception e) {

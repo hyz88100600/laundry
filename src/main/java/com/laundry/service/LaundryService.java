@@ -60,10 +60,10 @@ public class LaundryService {
 		Double latitude = dto.getLatitude();
 		LaundryParams params = new LaundryParams();
 		
-		params.setLatitude1(latitude-0.000002d);
-		params.setLatitude2(latitude+0.000002d);
-		params.setLongitude1(longitude-0.000002d);
-		params.setLongitude2(longitude+0.000002d);
+		params.setLatitude1(latitude-0.03d);
+		params.setLatitude2(latitude+0.03d);
+		params.setLongitude1(longitude-0.03d);
+		params.setLongitude2(longitude+0.03d);
 		
 		Specification<Laundry> buildSpecification = buildSpecification(params);
 		

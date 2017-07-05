@@ -12,8 +12,7 @@ public class ApiInterceptor extends HandlerInterceptorAdapter{
 	public boolean preHandle(HttpServletRequest request,
 			HttpServletResponse response, Object handler) throws Exception {
 		// TODO Auto-generated method stub
-		response.getWriter().write("s");
-		return false;
+		return true;
 	}
 
 	@Override

@@ -157,6 +157,7 @@ public class OrderController {
 			uploadResult.setUrl("/"+user.getString("phone")+"/"+name);
 			return uploadResult;
 		} catch (Exception e) {
+			e.printStackTrace();
 			return new UploadResult(StatusCode.sys_error);
 		}
 	}

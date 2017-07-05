@@ -30,6 +30,8 @@ public class Laundry{
 	private Double longitude;//经度
 	private Double latitude;//维度
 	
+	private String remarks;//描述
+	
 	@Temporal(TemporalType.TIMESTAMP)
 	protected Date createOn = new Date();
 	@Temporal(TemporalType.TIMESTAMP)
@@ -87,25 +89,27 @@ public class Laundry{
 	public Date getModifyOn() {
 		return modifyOn;
 	}
-
 	public void setModifyOn(Date modifyOn) {
 		this.modifyOn = modifyOn;
 	}
-
 	public String getHoster() {
 		return hoster;
 	}
-
 	public void setHoster(String hoster) {
 		this.hoster = hoster;
 	}
-
 	public String getContact() {
 		return contact;
 	}
-
 	public void setContact(String contact) {
 		this.contact = contact;
+	}
+
+	public String getRemarks() {
+		return remarks;
+	}
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
 	}
 	
 }

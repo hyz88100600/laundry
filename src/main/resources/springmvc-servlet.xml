@@ -20,6 +20,13 @@
 		<property name="suffix" value=".jsp"/>
 	</bean>
 	
+	<!-- <mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/api/**"/>
+			<bean class="com.laundry.interceptor.ApiInterceptor"></bean>
+		</mvc:interceptor>
+	</mvc:interceptors> -->
+	
 	<!-- 支持上传文件 -->  
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
 </beans>

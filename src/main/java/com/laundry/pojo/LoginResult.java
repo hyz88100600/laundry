@@ -10,7 +10,7 @@ public class LoginResult extends BaseResult{
 	//用户返回
 	@JsonInclude(Include.NON_NULL)
 	private String nickName;//昵称
-	private AddressPOJO addressPOJO;//地址
+	private AddressPOJO address;//地址
 	private String token;//令牌
 
 	public LoginResult(){
@@ -26,11 +26,11 @@ public class LoginResult extends BaseResult{
 	public void setNickName(String nickName) {
 		this.nickName = nickName;
 	}
-	public AddressPOJO getAddressPOJO() {
-		return addressPOJO;
+	public AddressPOJO getAddress() {
+		return address;
 	}
-	public void setAddressPOJO(AddressPOJO addressPOJO) {
-		this.addressPOJO = addressPOJO;
+	public void setAddress(AddressPOJO address) {
+		this.address = address;
 	}
 	public String getToken() {
 		return token;
