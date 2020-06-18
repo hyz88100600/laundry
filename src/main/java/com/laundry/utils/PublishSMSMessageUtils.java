@@ -16,7 +16,7 @@ public class PublishSMSMessageUtils {
 		/**
          * Step 1. 获取主题引用
          */
-        CloudAccount account = new CloudAccount("LTAIDdt80eWdLz0U", "LAoxT5PFpXjfA6CEukCHkNbgO6XY1S", "http://1720500209173746.mns.cn-hangzhou.aliyuncs.com/");
+        CloudAccount account = new CloudAccount("", "", "http://1720500209173746.mns.cn-hangzhou.aliyuncs.com/");
         MNSClient client = account.getMNSClient();
         CloudTopic topic = client.getTopicRef("sms.topic-cn-hangzhou");
         /**
